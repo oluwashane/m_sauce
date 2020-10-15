@@ -7,3 +7,18 @@ Content-Type: application/json
 {
   :)
 }
+
+#handling user acc
+###
+GET http://127.0.0.1:3000/api/v1/profile
+
+###
+POST  http://127.0.0.1:3000/api/v1/register
+Content-Type: application/json
+
+{
+  "name": "ogbulafor udochukwu",
+  "department": "backend",
+  "username": "shane", 
+  "password": "shane12345",
+}

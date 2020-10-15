@@ -4,6 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const { ErrorHandler, handleError } = require('./helper/error');
 const menuRoute = require('./router/menu');
+const userRoute = require('./router/user');
 
 const { PORT } = process.env;
 
@@ -16,6 +17,7 @@ app.use(morgan('dev'));
 app.use(cors());
 
 app.use('/api/v1/', menuRoute);
+app.use('/api/v1/', userRoute);
 
 // error handler
 app.use((req, res, next) => {
