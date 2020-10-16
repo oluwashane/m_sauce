@@ -7,12 +7,7 @@ class ErrorHandler extends Error {
 }
 
 const handleError = (err, res) => {
-  const { statusCode, message } = err;
-  res.status(statusCode).json({
-    status: 'error',
-    statusCode,
-    message,
-  });
+  res.redirect('/api/v1/api-docs');
 };
 
 module.exports = {

@@ -1,0 +1,423 @@
+{
+  "openapi":"3.0.2",
+  "info": {
+    "title":"Madam Sauce's kitchen",
+    "description": "A food web API",
+    "version":"1.0"
+  },
+  "servers": [
+    {
+      "url":"http://127.0.0.1:3000/api/v1/",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post" : {
+        "summary": "create new user",
+        "tags": ["User"],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/userBody"
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "user login",
+        "tags": ["User"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type":"string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "summary": "user logout",
+        "description": "user has to login before you can logout",
+        "tags": ["User"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "summary": "user Profile",
+        "description": "user has to be logged in to view profile",
+        "tags": ["User"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/order": {
+      "post" : {
+        "summary": "create new order",
+        "tags": ["Order"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "requestBody": {
+          "$ref":"#/components/requestBodies/orderBody"
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "get" : {
+        "summary": "view all orders",
+        "description": "you need admin access",
+        "tags": ["Order"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/order/me": {
+      "get" : {
+        "summary": "view personal order",
+        "description": "you have to you login to access your order",
+        "tags": ["Order"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/menu": {
+      "post" : {
+        "summary": "create new menu",
+        "description": "requires admin access",
+        "tags": ["Menu"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "requestBody": {
+          "$ref":"#/components/requestBodies/menuBody"
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "get" : {
+        "summary": "view menu",
+        "description": "the menu for the day",
+        "tags": ["Menu"],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/menu/{id}": {
+      "patch" : {
+        "summary": "edit menu",
+        "description": "requires admin access",
+        "tags": ["Menu"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref":"#/components/requestBodies/menuBody"
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "delete" : {
+        "summary": "delete menu",
+        "description": "the menu for the day",
+        "tags": ["Menu"],
+        "security": [
+          { "bearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme":"bearer",
+          "bearerFormat": "JWT"
+        }
+      }, 
+      "requestBodies": {
+        "userBody": {
+          "description": "It contains user information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "orderBody": {
+          "description": "It contains order information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          }
+        },
+        "menuBody": {
+          "description": "It contains menu information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Menu"
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "BadRequest": {
+          "description": "Bad Request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        },
+        "ServerError": {
+          "description": "Internal Server Error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        },
+        "ServiceUnavailable": {
+          "description": "Service Unavailable",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        },
+        "Unauthorized": {
+          "description": "Unauthorized",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+
+      },
+      "schemas": {
+        "User": {
+          "type": "object",
+          "properties": {
+              "name" : {
+                "type": "string"
+              },
+              "department" : {
+                "type" : "string"
+              },
+              "username": {
+                "type": "string"
+              },
+              "password" : {
+                "type" : "string"
+              },
+              "isAdmin": {
+                "type": "boolean"
+              }
+          },
+          "required": ["name", "department", "username", "password"]
+        },
+        "Menu": {
+          "type": "object",
+          "properties": {
+            "day": {
+              "type": "string"
+            },
+            "menu": {
+              "type": "array",
+              "items": {
+                "properties": {
+                  "name":{
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": ["day", "menu"]
+        },
+        "Order": {
+          "type": "object",
+          "properties": {
+            "order": {
+              "type":"array",
+              "items": {
+                "type": "string"
+              }
+            } 
+          }
+        },
+        "Error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "number"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": ["code", "message"]
+        }
+    }
+  }
+}

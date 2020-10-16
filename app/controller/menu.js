@@ -16,7 +16,7 @@ const getMenu = async (req, res) => {
   try {
     const fetchMenus = await Menu.find({});
     const menu = displayMenu(fetchMenus, currentDay());
-    res.send(menu);
+    res.status(200).send(menu);
   } catch (error) {
     res.status(error.statusCode).send(error.message);
   }

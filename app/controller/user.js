@@ -34,7 +34,11 @@ const logout = async (req, res) => {
 };
 
 const profile = (req, res) => {
-  res.send(req.user);
+  try {
+    res.status(200).send(req.user);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
 
 module.exports = {
