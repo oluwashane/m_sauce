@@ -9,7 +9,12 @@
     {
       "url":"http://127.0.0.1:3000/api/v1/",
       "description": "Development server"
+    },
+    {
+      "url":"https://madamsauce.herokuapp.com/api/v1/",
+      "description": "production server"
     }
+    
   ],
   "paths": {
     "/register": {
